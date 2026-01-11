@@ -1,0 +1,431 @@
+
+body {
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+
+    /* subtle page background so calculator card stands out */
+    background: linear-gradient(180deg,#f7f9fc,#eef2f7);
+}
+
+/* ensure calculator reads as a distinct card */
+.calculator {
+    display: flex;
+    max-width: 900px;
+    background-color: #ffffff; /* solid card so it does not blend with page */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Touch / pointer friendly */
+.btn {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.06);
+}
+
+.btn.active,
+.btn:active {
+    transform: translateY(0);
+    opacity: 0.92;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* QR modal removed */
+
+/* Responsive: make buttons larger on small screens */
+@media (max-width: 600px) {
+    .calculator { max-width: 100%; margin: 12px; }
+    .calculator-body { width: 100%; padding: 18px; }
+    .btn { padding: 16px 18px; font-size: 1.15rem; }
+    .display { height: 72px; font-size: 2.2em }
+}
+
+/* ===== KALKULATOR ===== */
+.calculator {
+    display: flex;
+    max-width: 900px;
+    /* display kotak menjadi blur */
+    background-color: rgba(255, 255, 255, 0.65);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.25);
+} 
+
+/* Riwayat */
+.history-container {
+    width: 200px;
+    padding: 20px;
+    background-color: rgba(249,241,241,0.75);
+    border-right: 1px solid rgba(0,0,0,0.06);
+}
+
+.history-container h3 {
+    margin: 0 0 15px;
+    color: #333;
+    border-bottom: 1px solid #aaa;
+    padding-bottom: 10px;
+}
+
+#history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 0.9em;
+}
+
+#history-list li {
+    padding: 5px 0;
+    border-bottom: 1px dotted #aaa;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#history-list li:hover {
+    background-color: var(--history-hover);
+}
+
+/* Bagian kalkulator utama */
+.calculator-body {
+    padding: 20px;
+    width: 350px;
+}
+
+/* Tombol toggle tema */
+.theme-toggle {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.06);
+    cursor: pointer;
+    background-color: rgba(34,34,34,0.85);
+    color: #fff;
+}
+
+.theme-toggle.small {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    margin-left: 8px;
+} 
+
+/* Display */
+.display {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 2em;
+    text-align: right;
+    border: 2px solid rgba(0,0,0,0.12); 
+    border-radius: 8px;
+    /* slightly translucent display to match the calculator container */
+    background-color: rgba(255,255,255,0.95);
+    color: #111;
+    box-shadow: 0 2px 6px rgba(16,24,40,0.06);
+    box-sizing: border-box;
+} 
+
+/* Focus state for accessibility */
+.display:focus,
+.display:focus-visible {
+    outline: 3px solid rgba(59,130,246,0.38); /* subtle blue focus ring */
+    outline-offset: 2px;
+} 
+
+
+
+/* Posisi display kalkulator */
+.calculator-body { position: relative; }
+
+/* Display wrapper placed at the top of the calculator body and reserves space for the result below */
+.display-wrap {
+    position: relative; /* keep in document flow */
+    width: 100%;
+    padding-bottom: 18px; /* reserve space for the result area */
+    box-sizing: border-box;
+    margin-bottom: 12px; /* separate from buttons */
+}
+
+/* Bigger input placed at top of the display-wrap */
+.display {
+    width: 100%;
+    height: 68px;
+    font-size: 1.15rem;
+    padding: 12px;
+    box-sizing: border-box;
+    background-clip: padding-box; /* ensure background doesn't bleed */
+}
+
+/* Result positioned at bottom-right of the display-wrap (inside flow space) */
+.display-result {
+    position: absolute;
+    right: 12px;
+    bottom: 6px; /* snugly under the input */
+    font-size: 1.05rem;
+    color: #064e3b;
+    font-weight: 700;
+    pointer-events: none;
+    max-width: calc(100% - 24px);
+    text-align: right;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    z-index: 2;
+}
+
+/* Dark-mode colors for display result */
+body.dark-mode .display-result { color: #bbf7d0; }
+
+/* Ensure buttons are not covered and have breathing room */
+.buttons { margin-top: 8px; }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .display-wrap { padding-bottom: 22px; }
+    .display { height: 60px; font-size: 1.05rem; }
+    .display-result { font-size: 0.95rem; right: 8px; bottom: 6px; }
+}
+
+
+/* Grid tombol: 4 kolom */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-auto-rows: 56px; /* consistent button heights */
+}
+
+/* Center content inside buttons */
+.buttons .btn { display: flex; align-items: center; justify-content: center; }
+
+/* Semua tombol */
+.btn {
+    padding: 12px 14px;
+    font-size: 1.05em;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.08s cubic-bezier(.2,.9,.3,1), box-shadow 0.12s, background-color 0.12s;
+    background-color: rgba(255,255,255,0.9);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+}
+
+/* Angka */
+.btn.num {
+    background-color: rgba(250,250,250,0.9);
+    color: #111;
+}
+
+/* Operator, fungsi, control */
+.btn.op,
+.btn.fn,
+.btn.ctrl {
+    background-color: #0dbd94;
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(13,189,148,0.12);
+}
+
+/* Tombol "=" */
+.btn.equal {
+    background: linear-gradient(180deg,#4CAF50,#3ca244);
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(28,163,83,0.14);
+}
+
+/* Hover & active */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+}
+
+.btn:active {
+    opacity: 0.95;
+    transform: translateY(0);
+}
+
+/* Focus-visible for buttons */
+.btn:focus-visible {
+    outline: 3px solid rgba(99,102,241,0.38);
+    outline-offset: 2px;
+}
+
+/* ===== DARK MODE & ACCESSIBILITY ===== */
+:root {
+    --history-hover: rgba(59,130,246,0.08); /* subtle blue hover */
+} 
+
+body,
+.calculator,
+.display,
+.btn {
+    transition: background-color 0.25s, color 0.25s, border-color 0.25s;
+}
+
+/* small utility styles */
+
+/* History item delete button */
+.history-delete {
+    margin-left: auto;
+    padding: 6px 8px;
+    background: #ef4444;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+.history-delete:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+body.dark-mode .history-delete {
+    background: #dc2626;
+    color: #fff;
+}
+
+#history-list li:hover {
+    background-color: var(--history-hover);
+}
+
+/* Undo snackbar */
+.undo-snackbar {
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    background: rgba(20,20,20,0.95);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+    z-index: 9999;
+}
+
+.undo-snackbar .undo-btn {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 6px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+body.dark-mode .undo-snackbar { background: rgba(8,8,8,0.95); }
+
+
+/* Standard dark mode with improved contrast */
+body.dark-mode {
+    background-color: #050816;
+    --history-hover: rgba(96,165,250,0.12);
+}
+
+body.dark-mode .calculator {
+    /* semi-transparent like light mode so wallpaper shows through */
+    background-color: rgba(11,18,32,0.65);
+    color: #e5e7eb;
+    border: 1px solid rgba(255,255,255,0.06); /* subtle border that reads on transparent background */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+} 
+
+body.dark-mode .history-container {
+    background-color: rgba(11,18,32,0.6);
+    border-right-color: rgba(255,255,255,0.06); /* consistent separator on transparent background */
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+} 
+
+body.dark-mode .history-container h3 {
+    color: #e5e7eb;
+    border-bottom-color: #4b5563;
+}
+
+body.dark-mode #history-list li {
+    border-bottom-color: #4b5563;
+}
+
+body.dark-mode .display {
+    background-color: rgba(2,16,24,0.6); /* semi-transparent display */
+    border: 2px solid rgba(255,255,255,0.06); /* subtle border to separate from container */
+    color: #e5e7eb;
+    box-shadow: inset 0 -4px 12px rgba(0,0,0,0.35);
+} 
+
+
+
+body.dark-mode .btn.num {
+    background-color: #0f1724;
+    color: #e5e7eb;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Operators/functions/control buttons use a teal with strong contrast */
+body.dark-mode .btn.op,
+body.dark-mode .btn.fn,
+body.dark-mode .btn.ctrl {
+    background-color: #0ea5a6; /* teal with strong contrast */
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(14,165,166,0.12);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+body.dark-mode .btn.equal {
+    background-color: #16a34a;
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+body.dark-mode .theme-toggle {
+    background-color: #f59e0b; /* amber for contrast */
+    color: #111827;
+    border: 1px solid rgba(0,0,0,0.12);
+}
+
+
+
+/* Settings row (font + wallpaper controls) */
+.settings-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+/* Wallpaper upload styles removed */
+
+/* History header and controls */
+.history-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.history-header h3 { margin: 0; }
+
+#history-list li {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px dotted #aaa;
+}
+
+/* font control buttons small tweak */
+.btn.ctrl { padding: 8px 10px; }
+
+
+ 
