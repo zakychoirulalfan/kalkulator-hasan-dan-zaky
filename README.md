@@ -57,8 +57,27 @@ Berisi logika perhitungan dan interaksi tombol. Berisi setiap fungsi yang akan d
 7. klik tombol keyboard panah kiri atau kanan untuk pindah slide aritmatika biasa dan aritmatika lanjutan.
 8. Klik garis tiga di kiri atas untuk mencari fitur lanjutan seperti mengubah wallpaper dan menghapus wallpaper dll.
 
-## Authors
-### 1. zaky choirul alfan
+## Credit 
+Proyek ini dikembangkan dengan bantuan asisten AI untuk optimasi kode terutama di javascript dan sebagaian di css, logika perhitungan, dan penyelesaian masalah teknis
 
-### 2. muhammad hasanudin
+---
+
+## 👤 Author
+Proyek ini dikembangkan sepenuhnya secara mandiri oleh:
+* **[Zaky Choirul Alfan]**
+* - *Full Development & Logic* - [@zakychoirulalfan_github](https://zakychoirulalfan.github.io/kalkulator-hasan-dan-zaky/)
+ 
+  * **[Muhammad Hasanudin]**
+  * - *Pemberi ide* -
+    
+
+## 🤖 Credits & Acknowledgments
+Dalam proses pembuatannya, proyek ini menggunakan bantuan teknologi sebagai berikut:
+
+* **AI Assistant (Gemini)** - Digunakan sebagai mitra diskusi untuk optimasi kode dan logika perhitungan kalkulator.
+  
+* **[HTML, CSS, JavaScript]** - Bahasa pemrograman utama yang digunakan.
+
+> [!IMPORTANT]
+> Proyek ini adalah hasil pengerjaan individu. Seluruh kode program, struktur folder, dan dokumentasi disusun oleh pengembang utama dengan bantuan asisten AI tanpa keterlibatan pihak luar lainnya.
 
