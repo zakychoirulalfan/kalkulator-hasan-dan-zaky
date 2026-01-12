@@ -1,4 +1,4 @@
-# Projek Calmath Januar dan Gavra
+# Projek kalkulator sederhana
 
 ## Deskripsi
 
@@ -9,7 +9,7 @@ yang dapat melakukan operasi perhitungan dasar seperti penjumlahan, pengurangan,
 
 1. Theme mode
 2. History
-3. Setting wallpaper
+3. deg dan rad
 
 ## Tujuan
 
@@ -59,4 +59,5 @@ Berisi logika perhitungan dan interaksi tombol. Berisi setiap fungsi yang akan d
 
 ## Authors
 ### 1. Januar Arif Wicaksono
+
 ### 2. Gavra Darius Ulul Albab
