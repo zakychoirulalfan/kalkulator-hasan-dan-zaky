@@ -58,6 +58,7 @@ Berisi logika perhitungan dan interaksi tombol. Berisi setiap fungsi yang akan d
 8. Klik garis tiga di kiri atas untuk mencari fitur lanjutan seperti mengubah wallpaper dan menghapus wallpaper dll.
 
 ## Authors
-### 1. Januar Arif Wicaksono
+### 1. zaky choirul alfan
 
-### 2. Gavra Darius Ulul Albab
+### 2. muhammad hasanudin
+
